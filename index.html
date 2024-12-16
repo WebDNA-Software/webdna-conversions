@@ -1,16 +1,15 @@
 [!]
 <!--HAS_WEBDNA_TAGS-->
 
-[/!][text]VS-SECRET=8604[/text][!]
-[/!][text]VS-SECRET-CLIENT=8b6e0h4[/text][!]
+[/!][text]MY-SECRET=2024[/text][!]
 [/!][text]VS-METHOD=AES[/text][!]
 
 [/!][function name=VS-DECRYPT&preparse=F][!]
-	[/!][decrypt method=[VS-METHOD]&seed=[VS-SECRET-CLIENT]][d][/decrypt][!]
+	[/!][decrypt method=[VS-METHOD]&seed=[MY-SECRET]][d][/decrypt][!]
 [/!][/function][!]
 
 [/!][function name=VS-ENCRYPT&preparse=F][!]
-	[/!][encrypt method=[VS-METHOD]&seed=[VS-SECRET-CLIENT]][d][/encrypt][!]
+	[/!][encrypt method=[VS-METHOD]&seed=[MY-SECRET]][d][/encrypt][!]
 [/!][/function][!]
 
 
@@ -34,7 +33,7 @@
   <body>
     <div class="container mt-5">
       <nav>
-        <div class="nav nav-tabs [!]justify-content-center[/!]" id="nav-tab" role="tablist">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <button class="nav-link [showif [varACTIVETAB]=nav-date]active[/showif]" id="nav-date-tab" data-bs-toggle="tab" data-bs-target="#nav-date" type="button" role="tab" aria-controls="nav-date" aria-selected="true">Date</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-time]active[/showif]" id="nav-time-tab" data-bs-toggle="tab" data-bs-target="#nav-time" type="button" role="tab" aria-controls="nav-time" aria-selected="true">Time</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-encrypt]active[/showif]" id="nav-encrypt-tab" data-bs-toggle="tab" data-bs-target="#nav-encrypt" type="button" role="tab" aria-controls="nav-encrypt" aria-selected="false">Encrypt</button>
