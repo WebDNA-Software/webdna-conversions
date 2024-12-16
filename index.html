@@ -2,14 +2,14 @@
 <!--HAS_WEBDNA_TAGS-->
 
 [/!][text]MY-SECRET=2024[/text][!]
-[/!][text]VS-METHOD=AES[/text][!]
+[/!][text]MY-METHOD=AES[/text][!]
 
 [/!][function name=VS-DECRYPT&preparse=F][!]
-	[/!][decrypt method=[VS-METHOD]&seed=[MY-SECRET]][d][/decrypt][!]
+	[/!][decrypt method=[MY-METHOD]&seed=[MY-SECRET]][d][/decrypt][!]
 [/!][/function][!]
 
 [/!][function name=VS-ENCRYPT&preparse=F][!]
-	[/!][encrypt method=[VS-METHOD]&seed=[MY-SECRET]][d][/encrypt][!]
+	[/!][encrypt method=[MY-METHOD]&seed=[MY-SECRET]][d][/encrypt][!]
 [/!][/function][!]
 
 
