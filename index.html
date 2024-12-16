@@ -1,0 +1,342 @@
+[!]
+<!--HAS_WEBDNA_TAGS-->
+
+[/!][text]VS-SECRET=8604[/text][!]
+[/!][text]VS-SECRET-CLIENT=8b6e0h4[/text][!]
+[/!][text]VS-METHOD=AES[/text][!]
+
+[/!][function name=VS-DECRYPT&preparse=F][!]
+	[/!][decrypt method=[VS-METHOD]&seed=[VS-SECRET-CLIENT]][d][/decrypt][!]
+[/!][/function][!]
+
+[/!][function name=VS-ENCRYPT&preparse=F][!]
+	[/!][encrypt method=[VS-METHOD]&seed=[VS-SECRET-CLIENT]][d][/encrypt][!]
+[/!][/function][!]
+
+
+[/!][text]varACTIVETAB=[switch value=[task]][!]
+  [/!][case value=unix_to_date]nav-unixts[/case][!]
+  [/!][case value=date_to_unix]nav-unixts[/case][!]
+  [/!][case value=value_to_encrypt]nav-encrypt[/case][!]
+  [/!][case value=value_to_decrypt]nav-encrypt[/case][!]
+  [/!][case value=cart_value]nav-cart[/case][!]
+  [/!][case value=time_to_number]nav-time[/case][!]
+  [/!][case value=number_to_time]nav-time[/case][!]
+  [/!][default]nav-date[/default][!]
+[/!][/switch][/text][!]
+
+[/!]<html>
+  <head>
+    <title>Conversions</title>
+    <link rel=stylesheet type="text/css" href="/bootstrap-5.3.2/css/bootstrap.min.css">
+    <link rel=stylesheet type="text/css" href="/css/custom.css">
+  </head>
+  <body>
+    <div class="container mt-5">
+      <nav>
+        <div class="nav nav-tabs [!]justify-content-center[/!]" id="nav-tab" role="tablist">
+          <button class="nav-link [showif [varACTIVETAB]=nav-date]active[/showif]" id="nav-date-tab" data-bs-toggle="tab" data-bs-target="#nav-date" type="button" role="tab" aria-controls="nav-date" aria-selected="true">Date</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-time]active[/showif]" id="nav-time-tab" data-bs-toggle="tab" data-bs-target="#nav-time" type="button" role="tab" aria-controls="nav-time" aria-selected="true">Time</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-encrypt]active[/showif]" id="nav-encrypt-tab" data-bs-toggle="tab" data-bs-target="#nav-encrypt" type="button" role="tab" aria-controls="nav-encrypt" aria-selected="false">Encrypt</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-cart]active[/showif]" id="nav-cart-tab" data-bs-toggle="tab" data-bs-target="#nav-cart" type="button" role="tab" aria-controls="nav-cart" aria-selected="false">Cart</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-unixts]active[/showif]" id="nav-unixts-tab" data-bs-toggle="tab" data-bs-target="#nav-unixts" type="button" role="tab" aria-controls="nav-unixts" aria-selected="false">Unix Timestamp</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-network]active[/showif]" id="nav-network-tab" data-bs-toggle="tab" data-bs-target="#nav-network" type="button" role="tab" aria-controls="nav-network" aria-selected="false">Subnet Calculator</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-ip4network]active[/showif]" id="nav-ip4network-tab" data-bs-toggle="tab" data-bs-target="#nav-ip4network" type="button" role="tab" aria-controls="nav-ip4network" aria-selected="false">IPv4 Subnet Calculator</button>
+          [!]<button class="nav-link [showif [varACTIVETAB]=xxx]active[/showif]" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button>[/!]
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        [!]---- date ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-date]active show[/showif]" id="nav-date" role="tabpanel" aria-labelledby="nav-date-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="date_to_number">
+                <label for="date" class="form-label"><strong>Date in (mm/dd/yyyy)</strong></label>
+                <input type="text" class="form-control" id="date" name="_DATEIN" value="[if ("[raw][_DATEIN][/raw]"="[_DATEIN]")][then][date][/then][else][_DATEIN][/else][/if]">
+                <button type="submit" class="btn btn-primary mt-3">Convert</button>
+              </form>
+              [showif [task]=date_to_number]
+                <div class="alert alert-primary" role="alert">
+                  <strong>[math]{[_DATEIN]}[/math]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="number_to_date">
+                <label for="number" class="form-label"><strong>Number in (eg: [math]{[date]}[/math])</strong></label>
+                <input type="text" class="form-control" id="number" name="_NUMBERIN" value="[if ("[raw][_NUMBERIN][/raw]"="[_NUMBERIN]")][then][math]{[date]}[/math][/then][else][_NUMBERIN][/else][/if]">
+                <button type="submit" class="btn btn-primary mt-3">Convert</button>
+              </form>
+              [showif [task]=number_to_date]
+                <div class="alert alert-primary" role="alert">
+                  <strong>[format days_to_date %d/%m/%Y][_NUMBERIN][/format]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+          </div>
+        </div>
+        [!]---- time ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-time]active show[/showif]" id="nav-time" role="tabpanel" aria-labelledby="nav-time-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="time_to_number">
+                <label for="time" class="form-label"><strong>Time in (hh:mm:ss)</strong></label>
+                <input type="text" class="form-control" id="time" name="_TIMEIN" value="[if ("[raw][_TIMEIN][/raw]"="[_TIMEIN]")][then][time][/then][else][_TIMEIN][/else][/if]">
+                <button type="submit" class="btn btn-primary mt-3">Convert</button>
+              </form>
+              [showif [task]=time_to_number]
+                <div class="alert alert-primary" role="alert">
+                  <strong>[math]{[_TIMEIN]}[/math]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="number_to_time">
+                <label for="number" class="form-label"><strong>Number in (eg: [math]{[time]}[/math])</strong></label>
+                <input type="text" class="form-control" id="number" name="_TNUMBERIN" value="[if ("[raw][_TNUMBERIN][/raw]"="[_TNUMBERIN]")][then][math]{[time]}[/math][/then][else][_TNUMBERIN][/else][/if]">
+                <button type="submit" class="btn btn-primary mt-3">Convert</button>
+              </form>
+              [showif [task]=number_to_time]
+                <div class="alert alert-primary" role="alert">
+                  <strong>[format seconds_to_time %H:%M:%S][_TNUMBERIN][/format]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+          </div>
+        </div>
+        [!]---- encrypt ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-encrypt]active show[/showif]" id="nav-encrypt" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="value_to_encrypt">
+                <label for="date" class="form-label"><strong>Value to Encrypt</strong></label>
+                <input type="text" class="form-control" id="date" name="_ENCIN" value="[if ("[raw][_ENCIN][/raw]"="[_ENCIN]")][then][/then][else][_ENCIN][/else][/if]">
+                <button type="submit" class="btn btn-success mt-3">Convert</button>
+              </form>
+              [showif [task]=value_to_encrypt]
+                <div class="alert alert-success" role="alert">
+                  <strong>[VS-ENCRYPT d=[_ENCIN]]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="value_to_decrypt">
+                <label for="number" class="form-label"><strong>Value to Decrypt</strong></label>
+                <input type="text" class="form-control" id="number" name="_ENCOUT" value="[if ("[raw][_ENCOUT][/raw]"="[_ENCOUT]")][then][/then][else][_ENCOUT][/else][/if]">
+                <button type="submit" class="btn btn-success mt-3">Convert</button>
+              </form>
+              [showif [task]=value_to_decrypt]
+                <div class="alert alert-success" role="alert">
+                  <strong>[VS-DECRYPT d=[_ENCOUT]]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+          </div>
+        </div>
+        [!]---- cart ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-cart]active show[/showif]" id="nav-cart" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="cart_value">
+                <label for="cart" class="form-label"><strong>Cart Value</strong> <button type="button" class="btn btn-sm btn-outline-dark copyinput">copy</button></label>
+                <input type="text" class="form-control copy-this" id="cart" value="[cart]">
+                <button type="submit" class="btn btn-secondary mt-3">Refresh</button>
+              </form>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+        </div>
+        [!]---- unixts ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-unixts]active show[/showif]" id="nav-unixts" role="tabpanel" aria-labelledby="nav-unixts-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="date_to_unix">
+                <label for="date" class="form-label"><strong>Create a Unix Timestamp</strong></label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" id="date" name="_INDATE" value="[if ("[raw][_INDATE][/raw]"="[_INDATE]")][then][date][/then][else][_INDATE][/else][/if]">
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" id="time" name="_INTIME" value="[if ("[raw][_INTIME][/raw]"="[_INTIME]")][then][time][/then][else][_INTIME][/else][/if]">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-info text-white mt-3">Create</button>
+              </form>
+              [showif [task]=date_to_unix]
+                <div class="alert alert-info" role="alert">
+                  <strong>
+                    [if ([math]{[_INDATE]}[/math]>[math]{01/01/1970}[/math])][!]
+                      [/!][then][math](({[_INDATE]}-{01/01/1970})*86400)+{[_INTIME]}[/math][/then][!]
+                      [/!][else]-[math](({01/01/1970}-{[_INDATE]})*86400)-({[_INTIME]})[/math][/else][!]
+                    [/!][/if]
+                  </strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="unix_to_date">
+                <label for="number" class="form-label"><strong>Unix Timestamp in (eg: [date %s])</strong></label>
+                <input type="text" class="form-control" id="unixin" name="_UNIXIN" value="[if ("[raw][_UNIXIN][/raw]"="[_UNIXIN]")][then][date %s][/then][else][_UNIXIN][/else][/if]">
+                <button type="submit" class="btn btn-info mt-3 text-white">Convert</button>
+              </form>
+              [showif [task]=unix_to_date]
+                <div class="alert alert-info" role="alert">
+                  <strong>[math days_to_date %d/%m/%Y]floor((0[_UNIXIN]+62167219200)/86400)[/math] [math seconds_to_time %H:%M:%S][_UNIXIN]-(86400*floor([_UNIXIN]/86400))[/math]</strong>
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+          </div>
+        </div>
+        [!]---- network ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-network]active show[/showif]" id="nav-network" role="tabpanel" aria-labelledby="nav-network-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-12">
+              <form id="subnetForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="networkAddress"><strong>Network Address</strong></label>
+                    <input class="form-control" type="text" id="networkAddress" placeholder="192.168.0.0">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="maskBits"><strong>Mask bits</strong></label>
+                    <select id="maskBits" class="form-control">
+                      <option>8</option>
+                      <option>16</option>
+                      <option>24</option>
+                      <option>32</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-md-12">
+                    <button type="button" id="calculate" class="btn btn-primary">Calculate</button>
+                  </div>
+                </div>
+              </form>
+
+              <div class="row" id="displayResults" style="display:none;">
+                <div class="col-md-12">
+                  <table id="results" class="table">
+                    <thead>
+                      <tr>
+                        <th>Subnet Address</th>
+                        <th>Range of Addresses</th>
+                        <th>Usable IPs</th>
+                        <th>Hosts</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="4">Enter a network address and mask to see results.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        [!]---- ip4network ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-ip4network]active show[/showif]" id="nav-ip4network" role="tabpanel" aria-labelledby="nav-ip4network-tab" tabindex="0">
+          <!-- Input Section -->
+          <div class="row my-3">
+            <div class="col-md-3">
+              <label for="v4NetworkBlock" class="form-label"><strong>Network Address Block</strong></label>
+              <input type="text" id="v4NetworkBlock" class="form-control" placeholder="192.168.0.0/24">
+            </div>
+            <div class="col-md-3">
+              <label for="v4SubnetMask" class="form-label"><strong>Subnet Mask</strong></label>
+              <select id="v4SubnetMask" class="form-select">
+                <option value="24">255.255.255.0/24</option>
+                <option value="25">255.255.255.128/25</option>
+                <option value="26">255.255.255.192/26</option>
+                <!-- Add more as needed -->
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="v4NumHosts" class="form-label"><strong>No. of Hosts/Subnet</strong></label>
+              <input type="text" id="v4NumHosts" class="form-control" readonly>
+            </div>
+            <div class="col-md-3">
+              <label for="v4NumSubnets" class="form-label"><strong>Number of Subnets</strong></label>
+              <input type="number" id="v4NumSubnets" class="form-control" value="1">
+            </div>
+          </div>
+          <!-- Results Section -->
+          <div class="row mb-4">
+            <div class="col-md-3">
+              <label class="form-label"><strong>Host Address Range</strong></label>
+              <input type="text" id="v4HostRange" class="form-control" readonly>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label"><strong>Broadcast Address</strong></label>
+              <input type="text" id="v4BroadcastAddress" class="form-control" readonly>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label"><strong>Wildcard Mask</strong></label>
+              <input type="text" id="v4WildcardMask" class="form-control" readonly>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label"><strong>CIDR Notation</strong></label>
+              <input type="text" id="v4CidrNotation" class="form-control" readonly>
+            </div>
+          </div>
+          <!-- Submit Button -->
+          <div class="row mb-4">
+            <div class="col-md-12 text-start">
+            <button id="v4CalculateBtn" class="btn btn-primary">Calculate</button>
+            </div>
+          </div>
+          <!-- Results Table -->
+          <div class="row" id="v4displayResults" style="display:none;"">
+            <div class="col-md-12">
+              <p class="mb-3"><strong>Subnet Details</strong></p>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Subnet ID</th>
+                    <th>Subnet Address</th>
+                    <th>Host Address Range</th>
+                    <th>Broadcast Address</th>
+                  </tr>
+                </thead>
+                <tbody id="v4SubnetDetails"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        [!]----------------------[/!]
+      </div>
+    </div>
+
+
+
+    [!]<div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>[/!]
+
+    <script src="/bootstrap-5.3.2/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.7.1.js"></script>
+    <script src="/js/copy-button.js"></script>
+    <script src="/js/simple-subnet.js"></script>
+    <script src="/js/ipv4-subnet.js"></script>
+
+  </body>
+</html>

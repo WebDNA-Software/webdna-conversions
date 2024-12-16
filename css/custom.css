@@ -1,0 +1,15 @@
+.copy {
+  position: absolute;
+  top: 4;
+  right: 4;
+  padding: 0.1rem 0.1rem;
+  font-size: 70%;
+}
+.copyinput {
+  margin-left:1.0rem;
+  padding: 0.1rem 0.1rem;
+  font-size: 70%;
+}
+code {
+  font-color:#333333 !important;
+}
