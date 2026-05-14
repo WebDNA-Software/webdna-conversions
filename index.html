@@ -1,18 +1,6 @@
 [!]
 <!--HAS_WEBDNA_TAGS-->
 
-[/!][text]MY-SECRET=2024[/text][!]
-[/!][text]MY-METHOD=AES[/text][!]
-
-[/!][function name=VS-DECRYPT&preparse=F][!]
-	[/!][decrypt method=[MY-METHOD]&seed=[MY-SECRET]][d][/decrypt][!]
-[/!][/function][!]
-
-[/!][function name=VS-ENCRYPT&preparse=F][!]
-	[/!][encrypt method=[MY-METHOD]&seed=[MY-SECRET]][d][/encrypt][!]
-[/!][/function][!]
-
-
 [/!][text]varACTIVETAB=[switch value=[task]][!]
   [/!][case value=unix_to_date]nav-unixts[/case][!]
   [/!][case value=date_to_unix]nav-unixts[/case][!]
@@ -21,6 +9,8 @@
   [/!][case value=cart_value]nav-cart[/case][!]
   [/!][case value=time_to_number]nav-time[/case][!]
   [/!][case value=number_to_time]nav-time[/case][!]
+  [/!][case value=number_to_date_usa]nav-date-usa[/case][!]
+  [/!][case value=date_to_number_usa]nav-date-usa[/case][!]
   [/!][default]nav-date[/default][!]
 [/!][/switch][/text][!]
 
@@ -28,36 +18,39 @@
   <head>
     <title>Conversions</title>
     <link rel=stylesheet type="text/css" href="/bootstrap-5.3.2/css/bootstrap.min.css">
-    <link rel=stylesheet type="text/css" href="/css/custom.css">
+    <link rel=stylesheet type="text/css" href="/css/custom.css?[time %s]">
   </head>
   <body>
     <div class="container mt-5">
       <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <div class="nav nav-tabs [!]justify-content-center[/!]" id="nav-tab" role="tablist">
           <button class="nav-link [showif [varACTIVETAB]=nav-date]active[/showif]" id="nav-date-tab" data-bs-toggle="tab" data-bs-target="#nav-date" type="button" role="tab" aria-controls="nav-date" aria-selected="true">Date</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-date-usa]active[/showif]" id="nav-date-tab-us" data-bs-toggle="tab" data-bs-target="#nav-date-usa" type="button" role="tab" aria-controls="nav-date" aria-selected="true">Date USA</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-time]active[/showif]" id="nav-time-tab" data-bs-toggle="tab" data-bs-target="#nav-time" type="button" role="tab" aria-controls="nav-time" aria-selected="true">Time</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-encrypt]active[/showif]" id="nav-encrypt-tab" data-bs-toggle="tab" data-bs-target="#nav-encrypt" type="button" role="tab" aria-controls="nav-encrypt" aria-selected="false">Encrypt</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-cart]active[/showif]" id="nav-cart-tab" data-bs-toggle="tab" data-bs-target="#nav-cart" type="button" role="tab" aria-controls="nav-cart" aria-selected="false">Cart</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-unixts]active[/showif]" id="nav-unixts-tab" data-bs-toggle="tab" data-bs-target="#nav-unixts" type="button" role="tab" aria-controls="nav-unixts" aria-selected="false">Unix Timestamp</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-network]active[/showif]" id="nav-network-tab" data-bs-toggle="tab" data-bs-target="#nav-network" type="button" role="tab" aria-controls="nav-network" aria-selected="false">Subnet Calculator</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-ip4network]active[/showif]" id="nav-ip4network-tab" data-bs-toggle="tab" data-bs-target="#nav-ip4network" type="button" role="tab" aria-controls="nav-ip4network" aria-selected="false">IPv4 Subnet Calculator</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-chmod]active[/showif]" id="nav-chmod-tab" data-bs-toggle="tab" data-bs-target="#nav-chmod" type="button" role="tab" aria-controls="nav-chmod" aria-selected="false">Linux chmod Calculator</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-pword]active[/showif]" id="nav-chmod-tab" data-bs-toggle="tab" data-bs-target="#nav-pword" type="button" role="tab" aria-controls="nav-pword" aria-selected="false">Password Generator</button>
           [!]<button class="nav-link [showif [varACTIVETAB]=xxx]active[/showif]" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button>[/!]
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
-        [!]---- date ----[/!]
+        [!]---- date AU ----[/!]
         <div class="tab-pane fade [showif [varACTIVETAB]=nav-date]active show[/showif]" id="nav-date" role="tabpanel" aria-labelledby="nav-date-tab" tabindex="0">
           <div class="row my-3">
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="date_to_number">
-                <label for="date" class="form-label"><strong>Date in (mm/dd/yyyy)</strong></label>
+                <label for="date" class="form-label fw-bold">Date in (dd/mm/yyyy)</label>
                 <input type="text" class="form-control" id="date" name="_DATEIN" value="[if ("[raw][_DATEIN][/raw]"="[_DATEIN]")][then][date][/then][else][_DATEIN][/else][/if]">
                 <button type="submit" class="btn btn-primary mt-3">Convert</button>
               </form>
               [showif [task]=date_to_number]
-                <div class="alert alert-primary" role="alert">
-                  <strong>[math]{[_DATEIN]}[/math]</strong>
+                <div class="alert alert-primary fw-bold" role="alert">
+                  [math]{[_DATEIN]}[/math]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -65,13 +58,46 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="number_to_date">
-                <label for="number" class="form-label"><strong>Number in (eg: [math]{[date]}[/math])</strong></label>
+                <label for="number" class="form-label fw-bold">Number in (eg: [math]{[date]}[/math])</label>
                 <input type="text" class="form-control" id="number" name="_NUMBERIN" value="[if ("[raw][_NUMBERIN][/raw]"="[_NUMBERIN]")][then][math]{[date]}[/math][/then][else][_NUMBERIN][/else][/if]">
                 <button type="submit" class="btn btn-primary mt-3">Convert</button>
               </form>
               [showif [task]=number_to_date]
-                <div class="alert alert-primary" role="alert">
-                  <strong>[format days_to_date %d/%m/%Y][_NUMBERIN][/format]</strong>
+                <div class="alert alert-primary fw-bold" role="alert">
+                  [format days_to_date %d/%m/%Y][_NUMBERIN][/format]
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+          </div>
+        </div>
+        [!]---- date US ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-date-usa]active show[/showif]" id="nav-date-usa" role="tabpanel" aria-labelledby="nav-date-usa-tab" tabindex="0">
+          <div class="row my-3">
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="date_to_number_usa">
+                <label for="date" class="form-label fw-bold">Date in USA format (mm/dd/yyyy)</label>
+                <input type="text" class="form-control" id="date" name="_DATEIN" value="[if ("[raw][_DATEIN][/raw]"="[_DATEIN]")][then][date %m/%d/%Y][/then][else][_DATEIN][/else][/if]">
+                <button type="submit" class="btn btn-primary mt-3">Convert</button>
+              </form>
+              [showif [task]=date_to_number_usa]
+                <div class="alert alert-primary fw-bold" role="alert">
+                  [math]{[getchars start=4&end=5][_DATEIN][/getchars]/[getchars start=1&end=2][_DATEIN][/getchars]/[getchars start=7&end=10][_DATEIN][/getchars]}[/math]
+                  <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
+                </div>
+              [/showif]
+            </div>
+            <div class="col-md-6">
+              <form class="form" method="post" action="[thisurl]">
+                <input name="task" type="hidden" value="number_to_date_usa">
+                <label for="number" class="form-label fw-bold">Number in (eg: [math]{[date]}[/math])</label>
+                <input type="text" class="form-control" id="number" name="_NUMBERIN" value="[if ("[raw][_NUMBERIN][/raw]"="[_NUMBERIN]")][then][math]{[date]}[/math][/then][else][_NUMBERIN][/else][/if]">
+                <button type="submit" class="btn btn-primary mt-3">Convert</button>
+              </form>
+              [showif [task]=number_to_date_usa]
+                <div class="alert alert-primary fw-bold" role="alert">
+                  [format days_to_date %m/%d/%Y][_NUMBERIN][/format]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -84,13 +110,13 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="time_to_number">
-                <label for="time" class="form-label"><strong>Time in (hh:mm:ss)</strong></label>
+                <label for="time" class="form-label fw-bold">Time in (hh:mm:ss)</label>
                 <input type="text" class="form-control" id="time" name="_TIMEIN" value="[if ("[raw][_TIMEIN][/raw]"="[_TIMEIN]")][then][time][/then][else][_TIMEIN][/else][/if]">
                 <button type="submit" class="btn btn-primary mt-3">Convert</button>
               </form>
               [showif [task]=time_to_number]
-                <div class="alert alert-primary" role="alert">
-                  <strong>[math]{[_TIMEIN]}[/math]</strong>
+                <div class="alert alert-primary fw-bold" role="alert">
+                  [math]{[_TIMEIN]}[/math]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -98,13 +124,13 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="number_to_time">
-                <label for="number" class="form-label"><strong>Number in (eg: [math]{[time]}[/math])</strong></label>
+                <label for="number" class="form-label fw-bold">Number in (eg: [math]{[time]}[/math])</label>
                 <input type="text" class="form-control" id="number" name="_TNUMBERIN" value="[if ("[raw][_TNUMBERIN][/raw]"="[_TNUMBERIN]")][then][math]{[time]}[/math][/then][else][_TNUMBERIN][/else][/if]">
                 <button type="submit" class="btn btn-primary mt-3">Convert</button>
               </form>
               [showif [task]=number_to_time]
-                <div class="alert alert-primary" role="alert">
-                  <strong>[format seconds_to_time %H:%M:%S][_TNUMBERIN][/format]</strong>
+                <div class="alert alert-primary fw-bold" role="alert">
+                  [format seconds_to_time %H:%M:%S][_TNUMBERIN][/format]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -117,27 +143,63 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="value_to_encrypt">
-                <label for="date" class="form-label"><strong>Value to Encrypt</strong></label>
+                <label for="date" class="form-label">Encryption Method</label>
+                <select class="form-control mb-2" id="enc-method" name="_ENCMETHOD">
+                  <option value=""></option>
+                  <option value="APOP" [showif [url][_ENCMETHOD][/url]=APOP]selected[/showif]>APOP - one way encryption</option>
+                  <option value="bcrypt" [showif [url][_ENCMETHOD][/url]=bcrypt]selected[/showif]>bcrypt - one way encryption</option>
+                  <option value="hmacsha256" [showif [url][_ENCMETHOD][/url]=hmacsha256]selected[/showif]>hmacsha256 - one way encryption</option>
+                  <option value="hmacsha512" [showif [url][_ENCMETHOD][/url]=hmacsha512]selected[/showif]>hmacsha512 - one way encryption</option>
+                  <option value="SHA256" [showif [url][_ENCMETHOD][/url]=SHA256]selected[/showif]>SHA256 - one way encryption</option>
+                  <option value="SHA1" [showif [url][_ENCMETHOD][/url]=SHA1]selected[/showif]>SHA1 - one way encryption</option>
+                  <option value="Base64" [showif [url][_ENCMETHOD][/url]=Base64]selected[/showif]>Base64</option>
+                  <option value="blowfish" [showif [url][_ENCMETHOD][/url]=blowfish]selected[/showif]>blowfish - Symmetric block cipher</option>
+                  <option value="twofish" [showif [url][_ENCMETHOD][/url]=twofish]selected[/showif]>twofish - Symmetric block cipher</option>
+                  <option value="AES" [showif [url][_ENCMETHOD][/url]=AES]selected[/showif]>AES - Symmetric block cipher</option>
+                  <option value="GCM" [showif [url][_ENCMETHOD][/url]=GCM]selected[/showif]>GCM - Symmetric block cipher</option>
+                </select>
+                <label for="date" class="form-label">Seed Value</label>
+                <input type="text" class="form-control mb-2" id="enc-seed" name="_ENCSEED" value="[if ("[raw][_ENCSEED][/raw]"="[_ENCSEED]")][then][/then][else][_ENCSEED][/else][/if]">
+                <label for="date" class="form-label">Value to Encrypt</label>
                 <input type="text" class="form-control" id="date" name="_ENCIN" value="[if ("[raw][_ENCIN][/raw]"="[_ENCIN]")][then][/then][else][_ENCIN][/else][/if]">
                 <button type="submit" class="btn btn-success mt-3">Convert</button>
               </form>
               [showif [task]=value_to_encrypt]
                 <div class="alert alert-success" role="alert">
-                  <strong>[VS-ENCRYPT d=[_ENCIN]]</strong>
+                  [encrypt method=[_ENCMETHOD]&seed=[_ENCSEED]][_ENCIN][/encrypt]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
             </div>
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
+                <label for="date" class="form-label">Encryption Method</label>
+                <select class="form-control mb-2" id="enc-method" name="_ENCMETHOD_OUT">
+                  <option value=""></option>
+                  [!]----
+                  <option value="APOP">APOP - one way encryption</option>
+                  <option value="bcrypt">bcrypt - one way encryption</option>
+                  <option value="hmacsha256">hmacsha256 - one way encryption</option>
+                  <option value="hmacsha512">hmacsha512 - one way encryption</option>
+                  <option value="SHA256">SHA256 - one way encryption</option>
+                  <option value="SHA1">SHA1 - one way encryption</option>
+                  ----[/!]
+                  <option value="Base64" [showif [url][_ENCMETHOD_OUT][/url]=Base64]selected[/showif]>Base64</option>
+                  <option value="blowfish" [showif [url][_ENCMETHOD_OUT][/url]=blowfish]selected[/showif]>blowfish - Symmetric block cipher</option>
+                  <option value="twofish" [showif [url][_ENCMETHOD_OUT][/url]=twofish]selected[/showif]>twofish - Symmetric block cipher</option>
+                  <option value="AES" [showif [url][_ENCMETHOD_OUT][/url]=AES]selected[/showif]>AES - Symmetric block cipher</option>
+                  <option value="GCM" [showif [url][_ENCMETHOD_OUT][/url]=GCM]selected[/showif]>GCM - Symmetric block cipher</option>
+                </select>
+                <label for="date" class="form-label">Seed Value</label>
+                <input type="text" class="form-control mb-2" id="enc-seed" name="_ENCSEED_OUT" value="[if ("[raw][_ENCSEED_OUT][/raw]"="[_ENCSEED_OUT]")][then][/then][else][_ENCSEED_OUT][/else][/if]">
                 <input name="task" type="hidden" value="value_to_decrypt">
-                <label for="number" class="form-label"><strong>Value to Decrypt</strong></label>
-                <input type="text" class="form-control" id="number" name="_ENCOUT" value="[if ("[raw][_ENCOUT][/raw]"="[_ENCOUT]")][then][/then][else][_ENCOUT][/else][/if]">
+                <label for="number" class="form-label">Value to Decrypt</label>
+                <input type="text" class="form-control" id="number" name="_ENCOUT" value="[if ("[raw][_ENCOUT][/raw]"="[_ENCOUT]")][then][/then][else][_ENCSEED_OUT][/else][/if]">
                 <button type="submit" class="btn btn-success mt-3">Convert</button>
               </form>
               [showif [task]=value_to_decrypt]
-                <div class="alert alert-success" role="alert">
-                  <strong>[VS-DECRYPT d=[_ENCOUT]]</strong>
+                <div class="alert alert-success fw-bold" role="alert">
+                  [decrypt method=[_ENCMETHOD_OUT]&seed=[_ENCSEED_OUT]][_ENCOUT][/decrypt]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -150,7 +212,7 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="cart_value">
-                <label for="cart" class="form-label"><strong>Cart Value</strong> <button type="button" class="btn btn-sm btn-outline-dark copyinput">copy</button></label>
+                <label for="cart" class="form-label fw-bold">Cart Value <button type="button" class="btn btn-sm btn-outline-dark copyinput">copy</button></label>
                 <input type="text" class="form-control copy-this" id="cart" value="[cart]">
                 <button type="submit" class="btn btn-secondary mt-3">Refresh</button>
               </form>
@@ -164,7 +226,7 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="date_to_unix">
-                <label for="date" class="form-label"><strong>Create a Unix Timestamp</strong></label>
+                <label for="date" class="form-label fw-bold">Create a Unix Timestamp</label>
                 <div class="row">
                   <div class="col-md-6">
                     <input type="text" class="form-control" id="date" name="_INDATE" value="[if ("[raw][_INDATE][/raw]"="[_INDATE]")][then][date][/then][else][_INDATE][/else][/if]">
@@ -176,13 +238,11 @@
                 <button type="submit" class="btn btn-info text-white mt-3">Create</button>
               </form>
               [showif [task]=date_to_unix]
-                <div class="alert alert-info" role="alert">
-                  <strong>
+                <div class="alert alert-info fw-bold" role="alert">
                     [if ([math]{[_INDATE]}[/math]>[math]{01/01/1970}[/math])][!]
                       [/!][then][math](({[_INDATE]}-{01/01/1970})*86400)+{[_INTIME]}[/math][/then][!]
                       [/!][else]-[math](({01/01/1970}-{[_INDATE]})*86400)-({[_INTIME]})[/math][/else][!]
                     [/!][/if]
-                  </strong>
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -190,13 +250,13 @@
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
                 <input name="task" type="hidden" value="unix_to_date">
-                <label for="number" class="form-label"><strong>Unix Timestamp in (eg: [date %s])</strong></label>
+                <label for="number" class="form-label fw-bold">Unix Timestamp in (eg: [date %s])</label>
                 <input type="text" class="form-control" id="unixin" name="_UNIXIN" value="[if ("[raw][_UNIXIN][/raw]"="[_UNIXIN]")][then][date %s][/then][else][_UNIXIN][/else][/if]">
                 <button type="submit" class="btn btn-info mt-3 text-white">Convert</button>
               </form>
               [showif [task]=unix_to_date]
-                <div class="alert alert-info" role="alert">
-                  <strong>[math days_to_date %d/%m/%Y]floor((0[_UNIXIN]+62167219200)/86400)[/math] [math seconds_to_time %H:%M:%S][_UNIXIN]-(86400*floor([_UNIXIN]/86400))[/math]</strong>
+                <div class="alert alert-info fw-bold" role="alert">
+                  [math days_to_date %d/%m/%Y]floor((0[_UNIXIN]+62167219200)/86400)[/math] [math seconds_to_time %H:%M:%S][_UNIXIN]-(86400*floor([_UNIXIN]/86400))[/math]
                   <button type="button" class="btn btn-sm btn-outline-dark copy">copy</button>
                 </div>
               [/showif]
@@ -210,11 +270,11 @@
               <form id="subnetForm">
                 <div class="row">
                   <div class="col-md-6">
-                    <label for="networkAddress"><strong>Network Address</strong></label>
+                    <label for="networkAddress fw-bold">Network Address</label>
                     <input class="form-control" type="text" id="networkAddress" placeholder="192.168.0.0">
                   </div>
                   <div class="col-md-6">
-                    <label for="maskBits"><strong>Mask bits</strong></label>
+                    <label for="maskBits fw-bold">Mask bits</label>
                     <select id="maskBits" class="form-control">
                       <option>8</option>
                       <option>16</option>
@@ -229,7 +289,6 @@
                   </div>
                 </div>
               </form>
-
               <div class="row" id="displayResults" style="display:none;">
                 <div class="col-md-12">
                   <table id="results" class="table">
@@ -257,11 +316,11 @@
           <!-- Input Section -->
           <div class="row my-3">
             <div class="col-md-3">
-              <label for="v4NetworkBlock" class="form-label"><strong>Network Address Block</strong></label>
+              <label for="v4NetworkBlock" class="form-label fw-bold">Network Address Block</label>
               <input type="text" id="v4NetworkBlock" class="form-control" placeholder="192.168.0.0/24">
             </div>
             <div class="col-md-3">
-              <label for="v4SubnetMask" class="form-label"><strong>Subnet Mask</strong></label>
+              <label for="v4SubnetMask" class="form-label fw-bold">Subnet Mask</label>
               <select id="v4SubnetMask" class="form-select">
                 <option value="24">255.255.255.0/24</option>
                 <option value="25">255.255.255.128/25</option>
@@ -270,30 +329,30 @@
               </select>
             </div>
             <div class="col-md-3">
-              <label for="v4NumHosts" class="form-label"><strong>No. of Hosts/Subnet</strong></label>
+              <label for="v4NumHosts" class="form-label fw-bold">No. of Hosts/Subnet</label>
               <input type="text" id="v4NumHosts" class="form-control" readonly>
             </div>
             <div class="col-md-3">
-              <label for="v4NumSubnets" class="form-label"><strong>Number of Subnets</strong></label>
+              <label for="v4NumSubnets" class="form-label fw-bold">Number of Subnets</label>
               <input type="number" id="v4NumSubnets" class="form-control" value="1">
             </div>
           </div>
           <!-- Results Section -->
           <div class="row mb-4">
             <div class="col-md-3">
-              <label class="form-label"><strong>Host Address Range</strong></label>
+              <label class="form-label fw-boldHost Address Range</label>
               <input type="text" id="v4HostRange" class="form-control" readonly>
             </div>
             <div class="col-md-3">
-              <label class="form-label"><strong>Broadcast Address</strong></label>
+              <label class="form-label fw-bold">Broadcast Address</label>
               <input type="text" id="v4BroadcastAddress" class="form-control" readonly>
             </div>
             <div class="col-md-3">
-              <label class="form-label"><strong>Wildcard Mask</strong></label>
+              <label class="form-label fw-bold">Wildcard Mask</label>
               <input type="text" id="v4WildcardMask" class="form-control" readonly>
             </div>
             <div class="col-md-3">
-              <label class="form-label"><strong>CIDR Notation</strong></label>
+              <label class="form-label fw-bold">CIDR Notation</label>
               <input type="text" id="v4CidrNotation" class="form-control" readonly>
             </div>
           </div>
@@ -306,7 +365,7 @@
           <!-- Results Table -->
           <div class="row" id="v4displayResults" style="display:none;"">
             <div class="col-md-12">
-              <p class="mb-3"><strong>Subnet Details</strong></p>
+              <p class="mb-3 fw-bold">Subnet Details</p>
               <table class="table">
                 <thead>
                   <tr>
@@ -321,21 +380,154 @@
             </div>
           </div>
         </div>
-
-
+        [!]---- chmod ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-chmod]active show[/showif]" id="nav-chmod" role="tabpanel" aria-labelledby="nav-chmod-tab" tabindex="0">
+          <!-- Input Section -->
+          <div class="row my-3">
+            <div class="col-md-2 text-start bg-light m-3 p-3">
+              <h5>Owner</h5>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="owner-read">Read</label>
+                <input class="form-check-input permission" type="checkbox" id="owner-read" data-group="owner" data-perm="4" >
+              </div>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="owner-write">Write</label>
+                <input class="form-check-input permission" type="checkbox" id="owner-write" data-group="owner" data-perm="2" >
+              </div>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="owner-execute">Execute</label>
+                <input class="form-check-input permission" type="checkbox" id="owner-execute" data-group="owner" data-perm="1" >
+              </div>
+            </div>
+            <div class="col-md-2 text-start bg-light m-3 p-3">
+              <h5>Group</h5>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="group-read">Read</label>
+                <input class="form-check-input permission" type="checkbox" id="group-read" data-group="group" data-perm="4" >
+              </div>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="group-write">Write</label>
+                <input class="form-check-input permission" type="checkbox" id="group-write" data-group="group" data-perm="2" >
+              </div>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="group-execute">Execute</label>
+                <input class="form-check-input permission" type="checkbox" id="group-execute" data-group="group" data-perm="1" >
+              </div>
+            </div>
+            <div class="col-md-2 text-start bg-light m-3 p-3">
+              <h5>Public</h5>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="public-read">Read</label>
+                <input class="form-check-input permission" type="checkbox" id="public-read" data-group="public" data-perm="4" >
+              </div>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="public-write">Write</label>
+                <input class="form-check-input permission" type="checkbox" id="public-write" data-group="public" data-perm="2" >
+              </div>
+              <div class="form-check">
+                <label class="form-label fw-bold" for="public-execute">Execute</label>
+                <input class="form-check-input permission" type="checkbox" id="public-execute" data-group="public" data-perm="1" >
+              </div>
+            </div>
+            <div class="col-md-4 text-start bg-light m-3 p-3">
+              <h5>Linux Permissions</h5>
+              <div class="mb-3 row">
+                <label class="col-md-3 col-form-label fw-bold" for="public-read">Numeric</label>
+                <div class="col-md-9">
+                  <input type="text" id="numeric-permissions" class="form-control" readonly value="">
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label class="col-md-3 col-form-label fw-bold" for="public-write">Symbolic</label>
+                <div class="col-md-9">
+                  <input type="text" id="symbolic-permissions" class="form-control" readonly value="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Results Table -->
+          <div class="row" id="permissionsResults">
+            <div class="col-md-12">
+              <h6>Chmod Calculator</h6>
+              <p>Chmod Calculator is a utility to calculate the numeric (octal) or symbolic value for a set of file or folder permissions in Linux servers.</p>
+              <h6>How to use</h6>
+              <p>Check the desired boxes or directly enter a valid numeric value (e.g. 777) or symbolic notation (e.g. rwxrwxrwx) to see its value in other formats.</p>
+              <h6>File Permissions</h6>
+              <p>File permissions in Linux file system are managed in three distinct user classes: user/owner, group and others/public.<br>Each class can have read, write and execute permissions.<br>File permission can be represented in a symbolic or numeric (octal) format.</p>
+            </div>
+          </div>
+        </div>
+        [!]---- chmod ----[/!]
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-pword]active show[/showif]" id="nav-pword" role="tabpanel" aria-labelledby="nav-pword-tab" tabindex="0">
+           <div class="row my-3">
+            <div class="col-md-12">
+              <label for="pwOptions" class="form-label fw-bold">Options</label>
+              <div class="d-flex justify-content-start">
+                <div class="input-group mb-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="useU" checked>
+                    <label class="form-check-label" for="useU">Uppercase (A-Z)</label>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="useL" checked>
+                    <label class="form-check-label" for="useL">Lowercase (a-z)</label>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="useN" checked>
+                    <label class="form-check-label" for="useN">Numbers (0-9)</label>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="useS" checked>
+                    <label class="form-check-label" for="useS">Symbols (!@#$...)</label>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="noSim" checked>
+                    <label class="form-check-label" for="noSim">Exclude Similar (i I 1 l o O 0)</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-md-2">
+              <label for="pwLen" class="form-label fw-bold">Password Length</label>
+              <select id="pwLen" class="form-select">
+                [loop start=8&end=64&edvance=2]
+                  <option value="[index]" [showif [index]=12]selected[/showif]>[index]</option>
+                [/loop]
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="genBtn" class="form-label fw-bold">&nbsp;</label>
+              <div><button id="genBtn" class="btn btn-primary">Generate</button></div>
+            </div>
+            <div class="col-md-5">
+              <label for="pwOut" class="form-label fw-bold">Output</label>
+              <div class="input-group mb-3">
+                <input type="text" id="pwOut" class="form-control" readonly>
+                <button type="button" class="btn btn-outline-warning btn-sm" id="copyBtn">Copy</button>
+                <div id="copyMsg" class="p-3 text-xsmall fst-italic text-success"></div>
+              </div>
+            </div>
+          </div>
+        </div>
         [!]----------------------[/!]
       </div>
     </div>
-
-
-
-    [!]<div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>[/!]
-
     <script src="/bootstrap-5.3.2/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.js"></script>
     <script src="/js/copy-button.js"></script>
     <script src="/js/simple-subnet.js"></script>
     <script src="/js/ipv4-subnet.js"></script>
-
+    <script src="/js/chmod.js"></script>
+    <script src="/js/pwordgen.js"></script>
   </body>
 </html>

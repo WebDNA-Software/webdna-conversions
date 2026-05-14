@@ -13,3 +13,7 @@
 code {
   font-color:#333333 !important;
 }
+
+h6 {font-weight:700;}
+
+.text-xsmall {font-size: 12px !important;}
