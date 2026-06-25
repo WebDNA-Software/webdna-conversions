@@ -1,3 +1,4 @@
+[!]-- stuart tremain 2026-06-25 15:40 --[/!]
 [!]
 <!--HAS_WEBDNA_TAGS-->
 
@@ -25,7 +26,7 @@
       <nav>
         <div class="nav nav-tabs [!]justify-content-center[/!]" id="nav-tab" role="tablist">
           <button class="nav-link [showif [varACTIVETAB]=nav-date]active[/showif]" id="nav-date-tab" data-bs-toggle="tab" data-bs-target="#nav-date" type="button" role="tab" aria-controls="nav-date" aria-selected="true">Date</button>
-          <button class="nav-link [showif [varACTIVETAB]=nav-date-usa]active[/showif]" id="nav-date-tab-us" data-bs-toggle="tab" data-bs-target="#nav-date-usa" type="button" role="tab" aria-controls="nav-date" aria-selected="true">Date USA</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-date-usa]active[/showif]" id="nav-date-tab-us" data-bs-toggle="tab" data-bs-target="#nav-date-usa" type="button" role="tab" aria-controls="nav-date-usa" aria-selected="true">Date USA</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-time]active[/showif]" id="nav-time-tab" data-bs-toggle="tab" data-bs-target="#nav-time" type="button" role="tab" aria-controls="nav-time" aria-selected="true">Time</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-encrypt]active[/showif]" id="nav-encrypt-tab" data-bs-toggle="tab" data-bs-target="#nav-encrypt" type="button" role="tab" aria-controls="nav-encrypt" aria-selected="false">Encrypt</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-cart]active[/showif]" id="nav-cart-tab" data-bs-toggle="tab" data-bs-target="#nav-cart" type="button" role="tab" aria-controls="nav-cart" aria-selected="false">Cart</button>
@@ -33,7 +34,7 @@
           <button class="nav-link [showif [varACTIVETAB]=nav-network]active[/showif]" id="nav-network-tab" data-bs-toggle="tab" data-bs-target="#nav-network" type="button" role="tab" aria-controls="nav-network" aria-selected="false">Subnet Calculator</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-ip4network]active[/showif]" id="nav-ip4network-tab" data-bs-toggle="tab" data-bs-target="#nav-ip4network" type="button" role="tab" aria-controls="nav-ip4network" aria-selected="false">IPv4 Subnet Calculator</button>
           <button class="nav-link [showif [varACTIVETAB]=nav-chmod]active[/showif]" id="nav-chmod-tab" data-bs-toggle="tab" data-bs-target="#nav-chmod" type="button" role="tab" aria-controls="nav-chmod" aria-selected="false">Linux chmod Calculator</button>
-          <button class="nav-link [showif [varACTIVETAB]=nav-pword]active[/showif]" id="nav-chmod-tab" data-bs-toggle="tab" data-bs-target="#nav-pword" type="button" role="tab" aria-controls="nav-pword" aria-selected="false">Password Generator</button>
+          <button class="nav-link [showif [varACTIVETAB]=nav-pword]active[/showif]" id="nav-pword-tab" data-bs-toggle="tab" data-bs-target="#nav-pword" type="button" role="tab" aria-controls="nav-pword" aria-selected="false">Password Generator</button>
           [!]<button class="nav-link [showif [varACTIVETAB]=xxx]active[/showif]" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button>[/!]
         </div>
       </nav>
@@ -138,7 +139,7 @@
           </div>
         </div>
         [!]---- encrypt ----[/!]
-        <div class="tab-pane fade [showif [varACTIVETAB]=nav-encrypt]active show[/showif]" id="nav-encrypt" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-encrypt]active show[/showif]" id="nav-encrypt" role="tabpanel" aria-labelledby="nav-encrypt-tab" tabindex="0">
           <div class="row my-3">
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
@@ -194,7 +195,7 @@
                 <input type="text" class="form-control mb-2" id="enc-seed" name="_ENCSEED_OUT" value="[if ("[raw][_ENCSEED_OUT][/raw]"="[_ENCSEED_OUT]")][then][/then][else][_ENCSEED_OUT][/else][/if]">
                 <input name="task" type="hidden" value="value_to_decrypt">
                 <label for="number" class="form-label">Value to Decrypt</label>
-                <input type="text" class="form-control" id="number" name="_ENCOUT" value="[if ("[raw][_ENCOUT][/raw]"="[_ENCOUT]")][then][/then][else][_ENCSEED_OUT][/else][/if]">
+                <input type="text" class="form-control" id="number" name="_ENCOUT" value="[if ("[raw][_ENCOUT][/raw]"="[_ENCOUT]")][then][/then][else][_ENCOUT][/else][/if]">
                 <button type="submit" class="btn btn-success mt-3">Convert</button>
               </form>
               [showif [task]=value_to_decrypt]
@@ -207,7 +208,7 @@
           </div>
         </div>
         [!]---- cart ----[/!]
-        <div class="tab-pane fade [showif [varACTIVETAB]=nav-cart]active show[/showif]" id="nav-cart" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+        <div class="tab-pane fade [showif [varACTIVETAB]=nav-cart]active show[/showif]" id="nav-cart" role="tabpanel" aria-labelledby="nav-cart-tab" tabindex="0">
           <div class="row my-3">
             <div class="col-md-6">
               <form class="form" method="post" action="[thisurl]">
@@ -270,11 +271,11 @@
               <form id="subnetForm">
                 <div class="row">
                   <div class="col-md-6">
-                    <label for="networkAddress fw-bold">Network Address</label>
+                    <label for="networkAddress" class="fw-bold">Network Address</label>
                     <input class="form-control" type="text" id="networkAddress" placeholder="192.168.0.0">
                   </div>
                   <div class="col-md-6">
-                    <label for="maskBits fw-bold">Mask bits</label>
+                    <label for="maskBits" class="fw-bold">Mask bits</label>
                     <select id="maskBits" class="form-control">
                       <option>8</option>
                       <option>16</option>
@@ -340,7 +341,7 @@
           <!-- Results Section -->
           <div class="row mb-4">
             <div class="col-md-3">
-              <label class="form-label fw-boldHost Address Range</label>
+              <label class="form-label fw-bold">Host Address Range</label>
               <input type="text" id="v4HostRange" class="form-control" readonly>
             </div>
             <div class="col-md-3">
@@ -363,7 +364,7 @@
             </div>
           </div>
           <!-- Results Table -->
-          <div class="row" id="v4displayResults" style="display:none;"">
+          <div class="row" id="v4displayResults" style="display:none;">
             <div class="col-md-12">
               <p class="mb-3 fw-bold">Subnet Details</p>
               <table class="table">
@@ -500,7 +501,7 @@
             <div class="col-md-2">
               <label for="pwLen" class="form-label fw-bold">Password Length</label>
               <select id="pwLen" class="form-select">
-                [loop start=8&end=64&edvance=2]
+                [loop start=8&end=64&advance=2]
                   <option value="[index]" [showif [index]=12]selected[/showif]>[index]</option>
                 [/loop]
               </select>
